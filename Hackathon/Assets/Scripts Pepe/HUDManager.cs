@@ -6,34 +6,28 @@ using UnityEngine.UI;
 public class HUDManager : MonoBehaviour
 {
 
-    public Image fondo;
+    public Image happinessFace;
+    public Sprite happy;
+    public Sprite neutral;
+    public Sprite angry;
+    public Text districtText;
+    public Text priceText;
 
-    public Sprite inicio;
-    public Sprite construccion;
-    public Sprite informacion;
+    public GameObject constructionMenu;
+    public Button b_Pipes;
+    public Button b_Building;
+    public Button b_Joints;
 
-    public Image caraFelicidad;
-    public Sprite feliz;
-    public Sprite neutro;
-    public Sprite enfadado;
-    public Text barrioText;
-    public Text precioText;
-
-    public Button b_Construir;
-    public Button b_Tuberias;
-    public Button b_Edificio;
-    public Button b_Juntas;
-
-    public Button b_CancelConstruir;
+    public Button b_CancelConstruction;
     public Button b_CancelInformation;
 
     public SelectionManagerMac select;
-    public Barrios barrios;
+    public Barrios districts;
 
-    public Text agua;
+    public GameObject districtInfo;
+    public Text water;
 
     public Image[] tutorial;
-    public GameObject barrioInfo;
 
     private int tutorialImagen = 0;
 
@@ -46,14 +40,14 @@ public class HUDManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agua.text = GameManager.instance.precioAgua.ToString();
+        water.text = GameManager.instance.precioAgua.ToString();
         if (GameManager.instance.boolBarrio)
         {
             ShowBarrio();
         }
         else
         {
-            barrioInfo.SetActive(false);
+            districtInfo.SetActive(false);
         }
     }
 
@@ -73,53 +67,47 @@ public class HUDManager : MonoBehaviour
 
     public void ShowConstruction()
     {
-        fondo.sprite = construccion;
-        b_CancelConstruir.gameObject.SetActive(true);
-        b_Tuberias.gameObject.SetActive(true);
-        b_Edificio.gameObject.SetActive(true);
-        b_Juntas.gameObject.SetActive(true);
+        b_CancelConstruction.gameObject.SetActive(true);
+        constructionMenu.SetActive(true);
     }
 
     public void CancelConstruction()
     {
-        fondo.sprite = inicio;
-        b_CancelConstruir.gameObject.SetActive(false);
-        b_Tuberias.gameObject.SetActive(false);
-        b_Edificio.gameObject.SetActive(false);
-        b_Juntas.gameObject.SetActive(false);
+        b_CancelConstruction.gameObject.SetActive(false);
+        constructionMenu.SetActive(false);
     }
 
     public void CancelInformation()
     {
-        barrioInfo.gameObject.SetActive(false);
+        GameManager.instance.showBarrio();
+        districtInfo.SetActive(false);
         b_CancelInformation.gameObject.SetActive(false);
     }
 
     private void ShowBarrio()
     {
-        barrioInfo.SetActive(true);
+        districtInfo.SetActive(true);
 
-        fondo.sprite = informacion;
         Barrios barrio = GameObject.Find(select.getBarrio()).GetComponent<Barrios>();
 
         b_CancelInformation.gameObject.SetActive(true);
 
         if (barrio.getFelicidad() < 33)
         {
-            caraFelicidad.sprite = enfadado;
-            precioText.text = "Los habitantes de este barrio creen que el precio del agua es demasiado alto";
+            happinessFace.sprite = angry;
+            priceText.text = "Los habitantes de este barrio creen que el precio del agua es demasiado alto";
         }
         else if (barrio.getFelicidad() > 66)
         {
-            caraFelicidad.sprite = feliz;
-            precioText.text = "Los habitantes de este barrio creen que el precio del agua es perfecto";
+            happinessFace.sprite = happy;
+            priceText.text = "Los habitantes de este barrio creen que el precio del agua es perfecto";
         }
         else
         {
-            caraFelicidad.sprite = neutro;
-            precioText.text = "Los habitantes de este barrio creen que el precio del agua es aceptable";
+            happinessFace.sprite = neutral;
+            priceText.text = "Los habitantes de este barrio creen que el precio del agua es aceptable";
         }
 
-        barrioText.text = select.getBarrio();
+        districtText.text = select.getBarrio();
     }
 }

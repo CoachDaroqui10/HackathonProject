@@ -565,4 +565,9 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public bool getInfoBarrio()
+    {
+        return boolBarrio;
+    }
+
 }

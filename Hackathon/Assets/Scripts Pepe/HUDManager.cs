@@ -29,6 +29,10 @@ public class HUDManager : MonoBehaviour
 
     public Image[] tutorial;
 
+    public Image moneyBackground;
+    public Sprite redMoney;
+    public Sprite normalMoney;
+
     private int tutorialImagen = 0;
 
     // Start is called before the first frame update
@@ -48,6 +52,15 @@ public class HUDManager : MonoBehaviour
         else
         {
             districtInfo.SetActive(false);
+        }
+
+        if (GameManager.instance.dinero < 1000)
+        {
+            moneyBackground.sprite = redMoney;
+        }
+        else
+        {
+            moneyBackground.sprite = normalMoney;
         }
     }
 
